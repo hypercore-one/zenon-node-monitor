@@ -1,4 +1,4 @@
-# Fork Monitor
+# Zenon Fork Monitor
 
 A real-time monitoring dashboard for tracking and comparing Zenon network nodes. This application helps identify consensus and synchronization issues across multiple nodes by visualizing their momentum heights and hashes.
 
@@ -6,7 +6,7 @@ A real-time monitoring dashboard for tracking and comparing Zenon network nodes.
 
 ## Features
 
-- Real-time monitoring of multiple Zenon nodes
+- Real-time monitoring of multiple Zenon public nodes
 - Visual comparison of momentum heights and hashes
 - Automatic detection of consensus matches and mismatches
 - Connection status monitoring
