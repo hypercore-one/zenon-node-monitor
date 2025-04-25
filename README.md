@@ -22,13 +22,14 @@ A real-time monitoring dashboard for tracking and comparing Zenon network public
 ## Project Structure
 
 ```
-fork-monitor/
+zenon-node-monitor/
 ├── frontend/           # React frontend application
 │   ├── src/           # Source files
 │   ├── public/        # Static files
 │   └── package.json   # Frontend dependencies
-└── backend/           # Python backend server
-    └── requirements.txt # Backend dependencies
+├── monitor.py         # Python backend server
+├── config.py          # Node configuration
+└── requirements.txt   # Python dependencies
 ```
 
 ## Setup
@@ -45,10 +46,10 @@ source venv/bin/activate  # On Unix/macOS
 
 2. Install the required Python packages:
 ```bash
-pip install -r backend/requirements.txt
+pip install -r requirements.txt
 ```
 
-3. Configure your nodes in the backend configuration file.
+3. Configure your nodes in `config.py`.
 
 ### Frontend
 
@@ -62,8 +63,7 @@ npm install
 
 1. Start the backend server:
 ```bash
-cd backend
-python app.py
+python monitor.py
 ```
 The API server will start on `http://localhost:8000`
 
