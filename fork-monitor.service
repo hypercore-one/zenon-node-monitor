@@ -1,0 +1,16 @@
+[Unit]
+Description=Zenon Fork Monitor
+After=network.target
+
+[Service]
+User=zenon
+Group=zenon
+WorkingDirectory=/opt/fork-monitor
+Environment=PATH=/opt/fork-monitor/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+Environment=PYTHONPATH=/opt/fork-monitor
+ExecStart=/opt/fork-monitor/venv/bin/python monitor.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target 
