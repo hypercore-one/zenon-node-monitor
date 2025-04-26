@@ -23,7 +23,7 @@ A real-time monitoring dashboard for tracking and comparing Zenon network public
 
 ```
 zenon-node-monitor/
-├── frontend/           # React frontend application
+├── frontend/          # React frontend application
 │   ├── src/           # Source files
 │   ├── public/        # Static files
 │   └── package.json   # Frontend dependencies

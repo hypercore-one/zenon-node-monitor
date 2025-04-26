@@ -95,7 +95,7 @@ const theme = createTheme({
           backgroundImage: 'none',
           backgroundColor: 'rgba(28, 28, 30, 0.92)',
           backdropFilter: 'blur(20px) saturate(180%)',
-          '-webkit-backdrop-filter': 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
           borderRadius: 4,
         },
       },

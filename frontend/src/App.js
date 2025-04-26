@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Container, 
   Box, 
@@ -10,6 +10,7 @@ import {
   alpha
 } from '@mui/material';
 import axios from 'axios';
+import config from './config';
 
 const truncateHash = (hash) => {
   if (!hash) return '';
@@ -107,9 +108,14 @@ const StatusIndicator = ({ isConnected }) => {
 
 const MomentumCard = ({ momentum, isMatching, heightExists, isStale }) => {
   const theme = useTheme();
+  const explorerUrl = `https://zenonhub.io/explorer/momentum/${momentum.hash}`;
   
   return (
     <Box 
+      component="a"
+      href={explorerUrl}
+      target="_blank"
+      rel="noopener noreferrer"
       sx={{ 
         p: 1.5,
         borderRadius: 3,
@@ -118,6 +124,9 @@ const MomentumCard = ({ momentum, isMatching, heightExists, isStale }) => {
         opacity: isStale ? 0.5 : 1,
         position: 'relative',
         transition: 'all 0.2s ease-in-out',
+        textDecoration: 'none',
+        display: 'block',
+        cursor: 'pointer',
         '&:hover': {
           backgroundColor: alpha(theme.palette.background.paper, 0.7),
           transform: 'translateY(-2px)',
@@ -183,12 +192,24 @@ const NodeCard = ({ nodeName, data, allNodeData }) => {
         p: 3,
         height: '100%',
         backgroundColor: alpha(theme.palette.background.paper, 0.8),
-        backdropFilter: 'blur(20px) saturate(180%)',
-        '-webkit-backdrop-filter': 'blur(20px) saturate(180%)',
         borderRadius: theme.shape.borderRadius,
         border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
         opacity: isConnected ? 1 : 0.7,
         transition: 'all 0.3s ease',
+        position: 'relative',
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: alpha(theme.palette.error.main, 0.1),
+          borderRadius: theme.shape.borderRadius,
+          pointerEvents: 'none',
+          opacity: isConnected ? 0 : 1,
+          transition: 'opacity 0.3s ease',
+        }
       }}
     >
       <Box sx={{ mb: 3 }}>
@@ -253,10 +274,10 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/nodes');
+        const response = await axios.get(`${config.getApiUrl()}/api/nodes`);
         setNodeData(response.data);
       } catch (error) {
-        console.error('Error fetching node data:', error);
+        // Silent error handling
       } finally {
         setLoading(false);
       }

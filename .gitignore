@@ -22,6 +22,9 @@ wheels/
 venv/
 .env
 
+# Application specific
+fork_monitor.log
+
 # Node.js
 node_modules/
 npm-debug.log*

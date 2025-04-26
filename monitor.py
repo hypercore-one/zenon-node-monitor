@@ -11,6 +11,7 @@ import uvicorn
 import signal
 import sys
 from contextlib import asynccontextmanager
+from config import Config
 
 # Configure logging
 logging.basicConfig(
@@ -47,18 +48,14 @@ class ForkMonitor:
             'zenonhub': NodeState(),
             'atsocy': NodeState()
         }
-        self.node_urls = {
-            'hc1': 'wss://my.hc1node.com:35998',
-            'zenonhub': 'wss://node.zenonhub.io:35998',
-            'atsocy': 'wss://node.atsocy.com:35998'
-        }
+        self.node_urls = Config.NODE_URLS
         self.subscribe_message = {
             "jsonrpc": "2.0",
             "id": 1,
             "method": "ledger.subscribe",
             "params": ["momentums"]
         }
-        self.message_timeout = 30  # seconds
+        self.message_timeout = Config.MESSAGE_TIMEOUT
         self.shutdown_event = None
         self.tasks = []
         self.app = None
@@ -87,15 +84,16 @@ class ForkMonitor:
         
         app.add_middleware(
             CORSMiddleware,
-            allow_origins=["*"],
+            allow_origins=["*"],  # Allow all origins
             allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
+            allow_methods=["*"],  # Allow all methods
+            allow_headers=["*"],  # Allow all headers
         )
 
         @app.get("/api/nodes")
         async def get_nodes():
-            return {
+            logger.info("Received request for nodes data")
+            data = {
                 node_name: {
                     "is_connected": node.is_connected,
                     "momentums": [
@@ -109,6 +107,8 @@ class ForkMonitor:
                 }
                 for node_name, node in self.nodes.items()
             }
+            logger.info(f"Returning data for {len(data)} nodes")
+            return data
 
         return app
 
