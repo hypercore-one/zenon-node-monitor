@@ -1,26 +1,26 @@
-# Replace example.com with your actual domain
-example.com {
-    # Frontend
-    handle / {
-        reverse_proxy 192.168.69.3:3000
+status.hc1node.com {
+    # Proxy WebSocket requests to backend
+    @ws path /ws
+    reverse_proxy @ws 192.168.69.146:3000 {
+        header_up Host {http.request.host}
+        header_up Connection "upgrade"
+        header_up Upgrade "websocket"
     }
 
-    # Backend API
-    handle /api/* {
-        reverse_proxy 192.168.69.3:8000
+    # Proxy API requests to backend
+    @api path /api/*
+    reverse_proxy @api 192.168.69.146:8000 {
+        header_up Host {http.request.host}
     }
 
-    # Enable compression
+    # All other requests (frontend)
+    reverse_proxy 192.168.69.146:3000
+
     encode gzip
 
-    # Enable HTTPS
-    tls {
-        # Caddy will automatically obtain and manage certificates
-    }
-
-    # Logging
     log {
-        output file /var/log/caddy/access.log
-        format json
+        output stderr
+        format console
+        level DEBUG
     }
-} 
+}
